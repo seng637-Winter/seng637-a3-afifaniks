@@ -18,7 +18,7 @@ Text…
 
 # 2 Manual data-flow coverage calculations for X and Y methods
 
-![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png)
+<!-- ![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png) -->
 ##### Defs, uses, and du-pairs
 
 |               |                                |
@@ -32,12 +32,25 @@ Text…
 |               | def(9) = {n}                   |
 |               | def(10) = {total}              |
 |               | def(11) = {r2}                 |
-| **uses**:     | use(2) = {b0, this.lower}      |
-|               | use(3) = {b1, this.lower}      |
-|               | use(5) = {b0, this.upper}      |
-|               | use(6) = {b0, b1}              |
-| **du-pairs**: | for b0: (1, 2), (1, 5), (1, 6) |
-|               | for b1: (1, 3), (1, 6)         |
+| **uses**:     | use(2) = {data}      |
+|               | use(3) = {data}      |
+|               | use(4) = {rowCount, r}      |
+|               | use(5) = {data, r, column, n}              |
+|               | use(6) = {total, n}              |
+|               | use(7) = {r}              |
+|               | use(8) = {r2, rowCount}              |
+|               | use(9) = {data, r2, column, n}              |
+|               | use(10) = {total, n}              |
+|               | use(11) = {r2}              |
+|               | use(12) = {total}              |
+| **du-pairs**: | data: (1, 2), (1, 3), (1, 5), (1, 9) |
+|               | column: (1, 5), (1, 9)         |
+|               | total: (3, 6), (3, 10), (3, 12), (6, 6), (6, 12), (10, 10), (10, 12)         |
+|               | rowCount: (3, 4), (3, 8)        |
+|               | r: (3, 4), (3, 5), (3, 7), (7, 7), (7, 4)       |
+|               | n: (5, 5), (5, 6), (9, 9), (9, 10)       |
+|               | r2: (8, 8), (8, 9), (8, 11), (11, 11), (11, 8) |
+
 # 3 A detailed description of the testing strategy for the new unit test
 
 Text…
