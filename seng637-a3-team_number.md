@@ -73,7 +73,9 @@ Text…
 
 Now we calculate all-uses coverage using the following equation:
 
-\[\frac{{CU_c + PU_c}}{{(CU + PU) - (CU_f + PU_f)}}\]
+```math
+\frac{{CU_c + PU_c}}{{(CU + PU) - (CU_f + PU_f)}}\
+```
 
 # 3 A detailed description of the testing strategy for the new unit test
 
