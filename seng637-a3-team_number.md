@@ -18,7 +18,7 @@ Text…
 
 # 2 Manual data-flow coverage calculations for X and Y methods
 
-<!-- ![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png) -->
+![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png)
 ##### Defs, uses, and du-pairs
 
 |               |                                |
@@ -51,6 +51,17 @@ Text…
 |               | n: (5, 5), (5, 6), (9, 9), (9, 10)       |
 |               | r2: (8, 8), (8, 9), (8, 11), (11, 11), (11, 8) |
 
+| Test case | Execution path | DU-pairs covered |
+|---|---|--|
+|`testCalculateColumnTotalOfFirstColumn`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalOfSecondColumn`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalWhenPositiveBoundaryExists`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalWhenNegativeExists`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalWhenTheIndexBecomesTooLarge`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalWhenTheIndexBecomesTooLarge`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalAllNonNull`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+|`testCalculateColumnTotalWithNulls`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
+
 ### DU-pair coverage calculation per test case
 | Variable (v) | Defined at node (n) | dcu(v, n) | dpu(v, n)        |
 | -------- | --------------- | --------- | ---------------- |
@@ -71,11 +82,32 @@ Text…
 | n        | 9               | {10}       | {(9, 10), (9, 11)} |
 |          | Total           | CU = 26   | PU = 18           |
 
-Now we calculate all-uses coverage using the following equation:
+Findings: We have infeasible pairs which no test cases can cover!
+```java
+   public static double calculateColumnTotal(Values2D data, int column) {
+        ParamChecks.nullNotPermitted(data, "data");
+        double total = 0.0;
+        int rowCount = data.getRowCount();
+        for (int r = 0; r < rowCount; r++) {
+            Number n = data.getValue(r, column);
+            if (n != null) {
+                total += n.doubleValue();
+            }
+        }
 
-```math
-\[\frac{{CU_c + PU_c}}{{(CU + PU) - (CU_f + PU_f)}}\]
+        // INFEASIBLE
+        for (int r2 = 0; r2 > rowCount; r2++) {
+            Number n = data.getValue(r2, column);
+            if (n != null) {
+                total += n.doubleValue();
+            }
+        }
+        return total;
+    }
 ```
+The commented portion of the targetted method is infeasible meaning no test cases can cover this block. As we can see, when `r2 > rowCount` the loop becomes infinite. Hence, the DU-pairs from the graph connecting this block becomes infeasible.
+
+**Infeasible pairs in the data flow graph of the method**: (8, 9), (8, 11), (11, 11), (11, 8), (9, 9), (9, 10), (10, 10), (10, 12), etc.
 
 # 3 A detailed description of the testing strategy for the new unit test
 
