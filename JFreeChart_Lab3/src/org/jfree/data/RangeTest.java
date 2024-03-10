@@ -994,10 +994,7 @@ public class RangeTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetLengthWithLowerGreaterThanUpper() {
         // Setup: create a Range object with lower > upper
-        Range range = new Range(5.0, 3.0); // Here, lower is 5.0 and upper is 3.0
-        
-        // Action: attempt to get the length, which should fail and throw an exception
-        range.getLength();
+        new Range(5.0, 3.0); // Here, lower is 5.0 and upper is 3.0 expecting an exception
     }
         
     

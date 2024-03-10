@@ -18,8 +18,26 @@ Text…
 
 # 2 Manual data-flow coverage calculations for X and Y methods
 
-Text…
+![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png)
+##### Defs, uses, and du-pairs
 
+|               |                                |
+| ------------- | ------------------------------ |
+| **defs**:     | def(1) = {data, column}        |
+|               | def(3) = {total, rowCount, r}  |
+|               | def(5) = {n}                   |
+|               | def(6) = {total}               |
+|               | def(7) = {r}                   |
+|               | def(8) = {r2}                  |
+|               | def(9) = {n}                   |
+|               | def(10) = {total}              |
+|               | def(11) = {r2}                 |
+| **uses**:     | use(2) = {b0, this.lower}      |
+|               | use(3) = {b1, this.lower}      |
+|               | use(5) = {b0, this.upper}      |
+|               | use(6) = {b0, b1}              |
+| **du-pairs**: | for b0: (1, 2), (1, 5), (1, 6) |
+|               | for b1: (1, 3), (1, 6)         |
 # 3 A detailed description of the testing strategy for the new unit test
 
 Text…
