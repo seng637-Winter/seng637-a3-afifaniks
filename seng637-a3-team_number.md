@@ -51,6 +51,32 @@ Text…
 |               | n: (5, 5), (5, 6), (9, 9), (9, 10)       |
 |               | r2: (8, 8), (8, 9), (8, 11), (11, 11), (11, 8) |
 
+### DU-pair coverage calculation per test case
+| Variable (v) | Defined at node (n) | dcu(v, n) | dpu(v, n)        |
+| -------- | --------------- | --------- | ---------------- |
+| data     | 1               | {2, 3, 5} | {(2, 3), (2, ∅)}               |
+| data     | 1               | {2, 3, 9} | {(2, 3), (2, ∅)}               |
+| column   | 1               | {5}       | {}               |
+| column   | 1               | {9}       | {}               |
+| r        | 3               | {5, 7}    | {(4, 5), (4, 8)} |
+| r        | 7               | {5, 7}    | {(4, 5), (4, 8)} |
+| r2        | 8               | {9, 11}    | {(8, 9), (8, 12)} |
+| r2        | 11               | {9, 11}    | {(8, 9), (8, 12)} |
+| rowCount | 3               | {}        | {(4, 5), (4, 8)} |
+| total    | 3               | {6, 12}    | {}               |
+| total    | 6               | {6, 12}    | {}               |
+| total    | 3               | {10, 12}    | {}               |
+| total    | 10               | {10, 12}    | {}               |
+| n        | 5               | {6}       | {(5, 6), (5, 7)} |
+| n        | 9               | {10}       | {(9, 10), (9, 11)} |
+|          | Total           | CU = 26   | PU = 18           |
+
+Now we calculate all-uses coverage using the following equation:
+
+```math
+\[\frac{{CU_c + PU_c}}{{(CU + PU) - (CU_f + PU_f)}}\]
+```
+
 # 3 A detailed description of the testing strategy for the new unit test
 
 Text…
