@@ -16,10 +16,13 @@ for each group. Please see each lab document for details.)
 
 Text…
 
-# 2 Manual data-flow coverage calculations for X and Y methods
+# 2 Manual data-flow coverage calculations
+
+### 1. `DataUtilities.calculateColumnTotal(Values2D data, int column)`
+### Data flow graph
 
 ![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_calculateColumnTotal.drawio.png)
-##### Defs, uses, and du-pairs
+### Defs, Uses, and DU-pairs
 
 |               |                                |
 | ------------- | ------------------------------ |
@@ -51,6 +54,7 @@ Text…
 |               | n: (5, 5), (5, 6), (9, 9), (9, 10)       |
 |               | r2: (8, 8), (8, 9), (8, 11), (11, 11), (11, 8) |
 
+### DU-pairs covered in test cases
 | Test case | Execution path | DU-pairs covered |
 |---|---|--|
 |`testCalculateColumnTotalOfFirstColumn`|[1, 2, 3, 4, 5, 6, 7, 8, 12]|(1, 2), (1, 3), (1, 5), (1, 9), (3, 6), (3, 12), (6, 6), (6, 12), (3, 4), (3, 5), (3, 7), (7, 7), (7, 4), (5, 5), (5, 6), (8, 8), (8, 12)|
@@ -82,7 +86,7 @@ Text…
 | n        | 9               | {10}       | {(9, 10), (9, 11)} |
 |          | Total           | CU = 26   | PU = 18           |
 
-Findings: We have infeasible pairs which no test cases can cover!
+### Findings: We have infeasible pairs which no test cases can cover!
 ```java
    public static double calculateColumnTotal(Values2D data, int column) {
         ParamChecks.nullNotPermitted(data, "data");
@@ -108,6 +112,47 @@ Findings: We have infeasible pairs which no test cases can cover!
 The commented portion of the targetted method is infeasible meaning no test cases can cover this block. As we can see, when `r2 > rowCount` the loop becomes infinite. Hence, the DU-pairs from the graph connecting this block becomes infeasible.
 
 **Infeasible pairs in the data flow graph of the method**: (8, 9), (8, 11), (11, 11), (11, 8), (9, 9), (9, 10), (10, 10), (10, 12), etc.
+
+### 2. `Range.ccombine(Range range1, Range range2)`
+### Data flow graph
+
+![calculateColumnTotal(Values2D data, int column)](media/seng637_assignment3_dfd_rangeCombine.drawio.png)
+### Defs, Uses, and DU-pairs
+
+|               |                                |
+| ------------- | ------------------------------ |
+| **defs**:     | def(1) = {range1, range2}        |
+|               | def(6) = {l, u}  |
+| **uses**:     | use(2) = {range1}      |
+|               | use(3) = {range2}      |
+|               | use(4) = {range2}      |
+|               | use(5) = {range1}              |
+|               | use(6) = {range1, range2, l, u}              |
+| **du-pairs**: | range1: (1, 2), (1, 5), (1, 6) |
+|               | range2: (1, 3), (1, 4), (1, 6)         |
+|               | l: (6, 6)         |
+|               | u: (6, 6)        |
+
+### DU-pairs covered in test cases
+| Test case | Execution path | DU-pairs covered |
+|---|---|--|
+|`testCombineWithFirstRangeNull`|[1, 2, 3]|(1, 2), (1, 3)|
+|`testCombineWithSecondRangeNull`|[1, 2, 4, 5]|(1, 2), (1, 4), (1, 5)|
+|`testCombineWithValidRange`|[1, 2, 4, 6]|(1, 2), (1, 4), (1, 6), (6, 6)|
+|`testCombineWithBoundaryValues`|[1, 2, 4, 6]|(1, 2), (1, 4), (1, 6), (6, 6)|
+|`testCombineWithBothRangesNull`|[1, 2, 3]|(1, 2), (1, 3)|
+
+### DU-pair coverage calculation per test case
+| Variable (v) | Defined at node (n) | dcu(v, n) | dpu(v, n)        |
+| -------- | --------------- | --------- | ---------------- |
+| range1     | 1               | {5} | {(2, 3), (2, 4)}               |
+| range1     | 1               | {6} | {(2, 3), (2, 4)}               |
+| range2     | 1               | {3} | {(4, 5), (4, 6)}               |
+| range2     | 1               | {6} | {(4, 5), (4, 6)}               |
+| l     | 6               | {6} | {}               |
+| u     | 6               | {6} | {}               |
+|          | Total           | CU = 6   | PU = 8           |
+
 
 # 3 A detailed description of the testing strategy for the new unit test
 
